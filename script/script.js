@@ -1,15 +1,69 @@
-document.querySelectorAll('.tab-button').forEach(button => {
-  button.addEventListener('click', event => {
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+let currentTab = 'all';
+let currentMode = 'grid';
+let allEntries = []; // ← 存放從 API 抓回來的資料
 
-    const tab = event.target.getAttribute('data-tab');
-    switchTab(tab);
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch('/api/fetch');
+    const data = await res.json();
+    allEntries = parseData(data); // optional: 處理欄位名稱
+    renderContent();
+  } catch (err) {
+    document.getElementById('content-area').innerHTML = '<p>❌ 無法載入資料</p>';
+  }
+});
+
+document.querySelectorAll('.tab-button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = btn.dataset.tab;
+    renderContent();
   });
 });
 
-function switchTab(tab) {
+document.querySelectorAll('.mode-button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode-button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentMode = btn.dataset.mode;
+    renderContent();
+  });
+});
+
+function renderContent() {
   const content = document.getElementById('content-area');
-  // TODO: 這裡可以改成 fetch API 實際資料
-  content.innerHTML = `<p>正在載入 <strong>${tab}</strong> 的資料...</p>`;
+  content.className = `content ${currentMode}`;
+
+  const filtered = currentTab === 'all'
+    ? allEntries
+    : allEntries.filter(e => e.role.toLowerCase() === currentTab.toLowerCase());
+
+  if (filtered.length === 0) {
+    content.innerHTML = '<p>目前沒有符合條件的登記資料。</p>';
+    return;
+  }
+
+  content.innerHTML = filtered.map(entry => {
+    if (currentMode === 'grid') {
+      return `<div class="item"><strong>${entry.name}</strong><br><em>${entry.role}</em><p>${entry.desc}</p></div>`;
+    } else if (currentMode === 'list') {
+      return `<div class="item"><strong>${entry.name}</strong> (${entry.role}) - ${entry.desc}</div>`;
+    } else {
+      return `<div class="item">[${entry.role}] ${entry.name}：${entry.desc}</div>`;
+    }
+  }).join('');
+}
+
+// 將 API 原始資料轉換為統一格式（依你的欄位調整）
+function parseData(raw) {
+  const rows = raw.values;
+  const header = rows[0];
+  const index = name => header.indexOf(name);
+  return rows.slice(1).map(row => ({
+    id: row[index('ID')] || '',
+    role: row[index('角色')] || '',
+    name: row[index('名稱')] || '',
+    desc: row[index('介紹')] || '',
+  }));
 }
