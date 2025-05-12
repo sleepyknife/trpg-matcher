@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 	
     res.status(200).json(data);
   } catch (err) {
-	console.log("Fail");
+	console.error('[❌ Google Sheet 讀取失敗]', err);  // ✅ 加這行
     res.status(500).json({ error: 'Failed to fetch sheet' });
   }
 }

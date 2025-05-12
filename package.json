@@ -1,0 +1,24 @@
+{
+  "name": "trpg-matcher",
+  "version": "1.0.0",
+  "description": "一個簡單的靜態網站，幫助 TRPG 玩家與主持人彼此媒合。  \r 使用 Google 表單登記，透過 GitHub Pages + Google Sheets API 公開顯示，方便快速找人配對開團！",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sleepyknife/trpg-matcher.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sleepyknife/trpg-matcher/issues"
+  },
+  "homepage": "https://github.com/sleepyknife/trpg-matcher#readme",
+  "dependencies": {
+    "googleapis": "^148.0.0"
+  }
+}
