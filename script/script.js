@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const res = await fetch('/api/fetch');
     const data = await res.json();
     allEntries = parseData(data); // optional: 處理欄位名稱
+	console.log(data);
     renderContent();
   } catch (err) {
     document.getElementById('content-area').innerHTML = '<p>❌ 無法載入資料</p>';
