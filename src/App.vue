@@ -59,7 +59,6 @@
 			</div>
           </template>
         </div>
-        <p v-if="filteredEntries.length === 0">目前沒有符合條件的資料。</p>
     </div>
 
     <hr />
@@ -110,14 +109,6 @@ onMounted(async () => {
   }
 })
 
-const filteredEntries = computed(() => {
-  if (currentTab.value === 'all') return players.value+gms.value
-  if (currentTab.value === 'players')
-    return players.value
-  if (currentTab.value === 'gms')
-    return gms.value
-  return []
-})
 </script>
 
 <style scoped>
