@@ -27,17 +27,39 @@
     <div class="content">
       <p v-if="loading">資料載入中...</p>
       <div v-else>
-        <div
-          v-for="(entry, i) in filteredEntries"
-          :key="i"
-          class="entry"
-        >
-          <strong>{{ entry.name }}</strong>（{{ entry.role }}）<br />
-          <p>{{ entry.desc }}</p>
-          <small>{{ entry.time }}</small>
+          <template v-if="currentTab === 'gms'">
+		    <div
+			  v-for="(entry, i) in gms"
+			  :key="i"
+			  class="entry"
+			>
+				暱稱：{{ entry[1] }}<br />
+				聯絡方式：{{ entry[3] }}<br />
+				🎮 開團系統：{{ entry[5] }}<br />
+				🕒 團務長度：{{ entry[6] }}<br />
+				📍 收費狀態：{{ entry[7] }}<br />
+				🧭 開團方式：{{ entry[8] }}<br />
+				👥 開團地點：{{ entry[9] }}<br />
+				🎭 補充說明：{{ entry[10] }}
+			</div>
+          </template>
+          <template v-else>
+			<div
+			  v-for="(entry, i) in players"
+			  :key="i"
+			  class="entry"
+			>
+				暱稱：{{ entry[1] }}<br />
+				聯絡方式：{{ entry[3] }}<br />
+				🎮 想跑系統：{{ entry[12] }}<br />
+				🕒 內容偏好：{{ entry[13] }}<br />
+				🎭 跑團方式：{{ entry[14] }}<br />
+				🧝 可以的時間：{{ entry[15] }}<br />
+				🧑‍🏫 玩家補充：{{ entry[16] }}
+			</div>
+          </template>
         </div>
         <p v-if="filteredEntries.length === 0">目前沒有符合條件的資料。</p>
-      </div>
     </div>
 
     <hr />
@@ -61,37 +83,26 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
 
-type Entry = {
-  name: string
-  role: string
-  desc: string
-  time: string
-}
-
-const currentTab = ref('all')
+const currentTab = ref<'gms' | 'players'>('gms')
 const tabs = [
-  { key: 'all', label: '全部' },
-  { key: 'players', label: '找玩家' },
-  { key: 'gms', label: '找主持人' },
+  { key: 'gms', label: '主持人' },
+  { key: 'players', label: '玩家' }
 ]
 
-const entries = ref<Entry[]>([])
+const gms = ref<any[]>([])
+const players = ref<any[]>([])
 const loading = ref(true)
 
 onMounted(async () => {
   try {
     const res = await fetch('/api/fetch')
     const data = await res.json()
-	console.log(data)
-    const header = data.values[0]
-    const idx = (name: string) => header.indexOf(name)
+	const values = data.values.slice(1)
 
-    entries.value = data.values.slice(1).map((row: string[]) => ({
-      name: row[idx('名稱')] || '',
-      role: row[idx('角色')] || '',
-      desc: row[idx('介紹')] || '',
-      time: row[idx('時間戳記')] || '',
-    }))
+    gms.value = values.filter((row: string[]) => row[4]?.includes('主持人'))
+    players.value = values.filter((row: string[]) => row[4]?.includes('玩家'))
+	console.log(gms)
+	console.log(players)
   } catch (e) {
     console.error('❌ 載入資料失敗', e)
   } finally {
@@ -100,11 +111,11 @@ onMounted(async () => {
 })
 
 const filteredEntries = computed(() => {
-  if (currentTab.value === 'all') return entries.value
+  if (currentTab.value === 'all') return players.value+gms.value
   if (currentTab.value === 'players')
-    return entries.value.filter(e => e.role.toLowerCase().includes('pl'))
+    return players.value
   if (currentTab.value === 'gms')
-    return entries.value.filter(e => e.role.toLowerCase().includes('gm'))
+    return gms.value
   return []
 })
 </script>
