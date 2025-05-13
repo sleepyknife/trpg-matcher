@@ -23,7 +23,7 @@ export default async function handler(
     console.error('[❌ Google Sheet 讀取失敗]', err)
     res.statusCode = 500
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify({ error: 'Failed to fetch sheet', detail: error.message }))
+    res.end(JSON.stringify({ error: 'Failed to fetch sheet', detail: err.message }))
   }
 }
 
