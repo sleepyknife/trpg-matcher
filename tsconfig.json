@@ -1,18 +1,19 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
   "compilerOptions": {
-    "types": ["vite/client", "node"],  // ✅ 新增 node
-    "moduleResolution": "node",
-    "jsx": "preserve",
+    "target": "ESNext",                     // 支援 Vercel Node runtime
+    "module": "ESNext",                     // 使用 ESM 模組
+    "lib": ["ESNext", "DOM"],               // 瀏覽器與伺服器都支援
+    "moduleResolution": "Node",
+    "types": ["vite/client", "node"],       // 支援 Vite 與 node import
     "allowJs": true,
     "skipLibCheck": true,
-	"target": "ESNext",               // ✅ 建議設為 ESNext
-    "lib": ["esnext", "dom"],          // ✅ 支援瀏覽器和 Node 環境
-	"module": "ESNext" // ✅ 使用 ES 模組
-  
-  }
+    "jsx": "preserve",
+    "baseUrl": ".",                         // 為了下面的 paths
+    "paths": {
+      "@utils/*": ["utils/*"]
+    },
+    "strict": true
+  },
+  "include": ["api", "utils", "src"],       // ✅ 加入 utils，讓 sheets.ts 被包含編譯
+  "exclude": ["dist", "node_modules"]
 }
