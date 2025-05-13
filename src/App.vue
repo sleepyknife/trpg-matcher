@@ -92,6 +92,12 @@
     </div>
 
     <hr />
+	
+	<div class="flex flex-wrap items-center justify-center gap-10">
+      asdaaldhalskdj
+	  adasd
+    </div>
+
 
     <div class="disclaimer">
       <strong>免責聲明：</strong><br />
