@@ -27,6 +27,36 @@
     <div class="content">
       <p v-if="loading">資料載入中...</p>
       <div v-else>
+			<template v-if="currentTab === 'all'">
+		    <div
+			  v-for="(entry, i) in gms"
+			  :key="i"
+			  class="entry"
+			>
+				暱稱：{{ entry[1] }}<br />
+				聯絡方式：{{ entry[3] }}<br />
+				🎮 開團系統：{{ entry[5] }}<br />
+				🕒 團務長度：{{ entry[6] }}<br />
+				📍 收費狀態：{{ entry[7] }}<br />
+				🧭 開團方式：{{ entry[8] }}<br />
+				👥 開團地點：{{ entry[9] }}<br />
+				🎭 補充說明：{{ entry[10] }}
+			</div>
+			
+			<div
+			  v-for="(entry, i) in players"
+			  :key="i"
+			  class="entry"
+			>
+				暱稱：{{ entry[1] }}<br />
+				聯絡方式：{{ entry[3] }}<br />
+				🎮 想跑系統：{{ entry[12] }}<br />
+				🕒 內容偏好：{{ entry[13] }}<br />
+				🎭 跑團方式：{{ entry[14] }}<br />
+				🧝 可以的時間：{{ entry[15] }}<br />
+				🧑‍🏫 玩家補充：{{ entry[16] }}
+			</div>
+          </template>
           <template v-if="currentTab === 'gms'">
 		    <div
 			  v-for="(entry, i) in gms"
@@ -82,10 +112,11 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
 
-const currentTab = ref<'gms' | 'players'>('gms')
-const tabs = [
-  { key: 'gms', label: '主持人' },
-  { key: 'players', label: '玩家' }
+const currentTab = ref<'all' | 'gms' | 'players'>('gms')
+const tabs: { key: 'gms' | 'players' | 'all' ; label: string }[] = [
+	{ key: 'all', label: '顯示全部'},
+	{ key: 'gms', label: '主持人' },
+	{ key: 'players', label: '玩家' }
 ]
 
 const gms = ref<any[]>([])
