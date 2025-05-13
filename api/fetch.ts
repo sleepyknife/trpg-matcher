@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http'
-import { getSheetData } from '../utils/sheets'
+import { getSheetData } from '../utils/sheets.js'
 
 export default async function handler(
 	req: IncomingMessage,
