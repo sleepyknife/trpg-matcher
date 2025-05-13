@@ -1,24 +1,37 @@
 {
-  "name": "trpg-matcher",
-  "version": "1.0.0",
-  "description": "一個簡單的靜態網站，幫助 TRPG 玩家與主持人彼此媒合。  \r 使用 Google 表單登記，透過 GitHub Pages + Google Sheets API 公開顯示，方便快速找人配對開團！",
-  "main": "index.js",
+  "name": "tyntrpg_form_vue",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sleepyknife/trpg-matcher.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/sleepyknife/trpg-matcher/issues"
-  },
-  "homepage": "https://github.com/sleepyknife/trpg-matcher#readme",
   "dependencies": {
-    "googleapis": "^148.0.0"
+    "@vueuse/core": "^12.5.0",
+    "animejs": "^3.2.2",
+    "crypto-js": "^4.2.0",
+    "lodash-es": "^4.17.21",
+    "remeda": "^2.20.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/animejs": "^3.1.13",
+    "@types/crypto-js": "^4.2.2",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.13.4",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.7.0",
+    "autoprefixer": "^10.4.20",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8.5.2",
+    "sass-embedded": "^1.83.4",
+    "tailwindcss": "^4.0.6",
+    "typescript": "~5.7.2",
+    "vite": "^6.1.0",
+    "vue-tsc": "^2.2.0"
   }
 }

@@ -1,94 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TRPG大平台</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      background: #f8f8f8;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    .button {
-      display: inline-block;
-      margin: 0.5rem;
-      padding: 0.6rem 1rem;
-      background-color: #4a90e2;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-    }
-    .tabs {
-      margin-top: 1.5rem;
-    }
-    .tab-button {
-      margin-right: 1rem;
-      padding: 0.4rem 1rem;
-      border: none;
-      border-bottom: 3px solid transparent;
-      background: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .tab-button.active {
-      border-color: #4a90e2;
-      color: #4a90e2;
-    }
-    hr {
-      margin: 2rem 0;
-    }
-    .content {
-      background: white;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-  </style>
-</head>
-<body>
-
-  <h1>TRPG大平台</h1>
-
-  <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSdtOjtWEwbNllQvVoKw2_XJVZsAa3Eig6tGE-zsF4vuZSeFzQ/viewform" target="_blank">
-    ➕ 我要登記
-  </a>
-
-  <div class="tabs">
-    <button class="tab-button active" data-tab="all">全部</button>
-    <button class="tab-button" data-tab="players">找玩家</button>
-    <button class="tab-button" data-tab="gms">找主持人</button>
-  </div>
-
-  <hr>
-
-  <div class="content" id="content-area">
-    <!-- 資料內容將插入這裡 -->
-    <p>資料載入中...</p>
-  </div>
-  
-  <hr>
-  
-  <div style="font-size: 0.9rem; color: #666; line-height: 1.5;">
-    <strong>免責聲明：</strong><br>
-    本平台僅提供 TRPG 玩家與主持人的媒合服務。  
-    所有配對後的互動、聯繫、團務安排、金錢往來皆由使用者自行負責。  
-    如有任何糾紛、失聯、暴雷、睡死、戀愛問題，請勿聯絡本站管理員，謝謝配合。
-  </div>
-
-  <div style="margin-top: 2rem; font-size: 0.85rem; text-align: center; color: #999;">
-    🔗 本站為開源專案，原始碼公開於 
-    <a href="https://github.com/sleepyknife/trpg-matcher" target="_blank">GitHub Repository</a>。
-  </div>
-  
-
-  <script src="script/script.js"></script>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TRPG 大平台</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
