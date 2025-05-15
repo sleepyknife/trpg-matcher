@@ -129,9 +129,19 @@ const gms = ref<any[]>([])
 const players = ref<any[]>([])
 const loading = ref(true)
 
+let url = ''
+if (import.meta.env.MODE === 'development') {
+  // 本機開發用環境變數
+  url = import.meta.env.VITE_TEST_URL
+} else {
+  // 部署到 Vercel 時，使用 Serverless API
+  url = '/api/fetch'
+}
+
+
 onMounted(async () => {
   try {
-    const res = await fetch('/api/fetch')
+    const res = await fetch(url)
     const data = await res.json()
 	const values = data.values.slice(1)
 
