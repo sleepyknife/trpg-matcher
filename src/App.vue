@@ -25,69 +25,18 @@
     <hr />
 
     <div class="content">
-      <p v-if="loading">資料載入中...</p>
-      <div v-else>
+		<p v-if="loading">資料載入中...</p>
+		<div v-else>
 			<template v-if="currentTab === 'all'">
-		    <div
-			  v-for="(entry, i) in gms"
-			  :key="i"
-			  class="entry"
-			>
-				暱稱：{{ entry[1] }}<br />
-				聯絡方式：{{ entry[3] }}<br />
-				🎮 開團系統：{{ entry[5] }}<br />
-				🕒 團務長度：{{ entry[6] }}<br />
-				📍 收費狀態：{{ entry[7] }}<br />
-				🧭 開團方式：{{ entry[8] }}<br />
-				👥 開團地點：{{ entry[9] }}<br />
-				🎭 補充說明：{{ entry[10] }}
-			</div>
-			
-			<div
-			  v-for="(entry, i) in players"
-			  :key="i"
-			  class="entry"
-			>
-				暱稱：{{ entry[1] }}<br />
-				聯絡方式：{{ entry[3] }}<br />
-				🎮 想跑系統：{{ entry[12] }}<br />
-				🕒 內容偏好：{{ entry[13] }}<br />
-				🎭 跑團方式：{{ entry[14] }}<br />
-				🧝 可以的時間：{{ entry[15] }}<br />
-				🧑‍🏫 玩家補充：{{ entry[16] }}
-			</div>
-          </template>
-          <template v-if="currentTab === 'gms'">
-		    <div
-			  v-for="(entry, i) in gms"
-			  :key="i"
-			  class="entry"
-			>
-				暱稱：{{ entry[1] }}<br />
-				聯絡方式：{{ entry[3] }}<br />
-				🎮 開團系統：{{ entry[5] }}<br />
-				🕒 團務長度：{{ entry[6] }}<br />
-				📍 收費狀態：{{ entry[7] }}<br />
-				🧭 開團方式：{{ entry[8] }}<br />
-				👥 開團地點：{{ entry[9] }}<br />
-				🎭 補充說明：{{ entry[10] }}
-			</div>
-          </template>
-          <template v-else>
-			<div
-			  v-for="(entry, i) in players"
-			  :key="i"
-			  class="entry"
-			>
-				暱稱：{{ entry[1] }}<br />
-				聯絡方式：{{ entry[3] }}<br />
-				🎮 想跑系統：{{ entry[12] }}<br />
-				🕒 內容偏好：{{ entry[13] }}<br />
-				🎭 跑團方式：{{ entry[14] }}<br />
-				🧝 可以的時間：{{ entry[15] }}<br />
-				🧑‍🏫 玩家補充：{{ entry[16] }}
-			</div>
-          </template>
+				<Card v-for="(entry, i) in gms" :key="'gms-' + i" :data="entry" type="gm" />
+				<Card v-for="(entry, i) in players" :key="'player-' + i" :data="entry" type="player" />
+			</template>
+			<template v-if="currentTab === 'gms'">
+				<Card v-for="(entry, i) in gms" :key="i" :data="entry" type="gm" />
+			</template>
+			<template v-else>
+				<Card v-for="(entry, i) in players" :key="i" :data="entry" type="player" />
+			</template>
         </div>
     </div>
 
@@ -116,45 +65,46 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue'
+	import { ref, computed, onMounted } from 'vue'
+	import Card from './components/Card.vue'
 
-const currentTab = ref<'all' | 'gms' | 'players'>('gms')
-const tabs: { key: 'gms' | 'players' | 'all' ; label: string }[] = [
-	{ key: 'all', label: '顯示全部'},
-	{ key: 'gms', label: '主持人' },
-	{ key: 'players', label: '玩家' }
-]
+	const currentTab = ref<'all' | 'gms' | 'players'>('gms')
+	const tabs: { key: 'gms' | 'players' | 'all' ; label: string }[] = [
+		{ key: 'all', label: '顯示全部'},
+		{ key: 'gms', label: '主持人' },
+		{ key: 'players', label: '玩家' }
+	]
 
-const gms = ref<any[]>([])
-const players = ref<any[]>([])
-const loading = ref(true)
+	const gms = ref<any[]>([])
+	const players = ref<any[]>([])
+	const loading = ref(true)
 
-let url = ''
-if (import.meta.env.MODE === 'development') {
-  // 本機開發用環境變數
-  url = import.meta.env.VITE_TEST_URL
-} else {
-  // 部署到 Vercel 時，使用 Serverless API
-  url = '/api/fetch'
-}
+	let url = ''
+	if (import.meta.env.MODE === 'development') {
+	  // 本機開發用環境變數
+	  url = import.meta.env.VITE_TEST_URL
+	} else {
+	  // 部署到 Vercel 時，使用 Serverless API
+	  url = '/api/fetch'
+	}
 
 
-onMounted(async () => {
-  try {
-    const res = await fetch(url)
-    const data = await res.json()
-	const values = data.values.slice(1)
+	onMounted(async () => {
+	  try {
+		const res = await fetch(url)
+		const data = await res.json()
+		const values = data.values.slice(1)
 
-    gms.value = values.filter((row: string[]) => row[4]?.includes('主持人'))
-    players.value = values.filter((row: string[]) => row[4]?.includes('玩家'))
-	console.log(gms)
-	console.log(players)
-  } catch (e) {
-    console.error('❌ 載入資料失敗', e)
-  } finally {
-    loading.value = false
-  }
-})
+		gms.value = values.filter((row: string[]) => row[4]?.includes('主持人'))
+		players.value = values.filter((row: string[]) => row[4]?.includes('玩家'))
+		console.log(gms)
+		console.log(players)
+	  } catch (e) {
+		console.error('❌ 載入資料失敗', e)
+	  } finally {
+		loading.value = false
+	  }
+	})
 
 </script>
 
